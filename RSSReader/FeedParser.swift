@@ -56,12 +56,16 @@ class FeedParser: NSObject, XMLParserDelegate {
         
         URLSession.shared.dataTask(with: feedURL, completionHandler: { data, response, error in
             if let error = error {
-                print(error)
+                DispatchQueue.main.async {
+                    print(error)
+                }
                 return
             }
             
             guard let data = data else {
-                print("No data fetched")
+                DispatchQueue.main.async {
+                    print("No data fetched")
+                }
                 return
             }
             
@@ -118,6 +122,8 @@ class FeedParser: NSObject, XMLParserDelegate {
     }
     
     func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
-        print(parseError.localizedDescription)
+        DispatchQueue.main.async {
+            print(parseError.localizedDescription)
+        }
     }
 }

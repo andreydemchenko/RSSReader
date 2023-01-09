@@ -1,14 +1,14 @@
 //
-//  ViewController.swift
+//  NewsViewController.swift
 //  RSSReader
 //
-//  Created by zuzex-62 on 29.12.2022.
+//  Created by zuzex-62 on 09.01.2023.
 //
 
 import UIKit
 
 class NewsViewController: UIViewController {
-    
+
     @IBOutlet private weak var tableView: UITableView!
     
     var rssItems: [NewsModel]?
@@ -84,3 +84,4 @@ extension NewsViewController: NewsTableViewCellProtocol {
     }
     
 }
+

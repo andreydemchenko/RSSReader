@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		8C60EA63295F1B63006785E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C60EA62295F1B63006785E2 /* ViewController.swift */; };
+		8C60EA65296BF1D7006785E2 /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C60EA64296BF1D7006785E2 /* SpinnerView.swift */; };
+		8C60EA68296BF9F6006785E2 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C60EA66296BF9F6006785E2 /* NewsViewController.swift */; };
+		8C60EA69296BF9F6006785E2 /* News.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C60EA67296BF9F6006785E2 /* News.xib */; };
 		8C78106E295DA5F7004A4A09 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C78106D295DA5F7004A4A09 /* ShareViewController.swift */; };
 		8C781071295DA5F7004A4A09 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C78106F295DA5F7004A4A09 /* MainInterface.storyboard */; };
 		8C781075295DA5F7004A4A09 /* SharedExt.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8C78106B295DA5F7004A4A09 /* SharedExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -27,7 +30,6 @@
 		8CE28836295F084900F879CD /* HistoryItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE28834295F084900F879CD /* HistoryItem+CoreDataProperties.swift */; };
 		8CE9B070295D735200B181B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE9B06F295D735200B181B0 /* AppDelegate.swift */; };
 		8CE9B072295D735200B181B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE9B071295D735200B181B0 /* SceneDelegate.swift */; };
-		8CE9B074295D735200B181B0 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE9B073295D735200B181B0 /* NewsViewController.swift */; };
 		8CE9B077295D735200B181B0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CE9B075295D735200B181B0 /* Main.storyboard */; };
 		8CE9B07A295D735200B181B0 /* RSSReader.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8CE9B078295D735200B181B0 /* RSSReader.xcdatamodeld */; };
 		8CE9B07C295D735700B181B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8CE9B07B295D735700B181B0 /* Assets.xcassets */; };
@@ -65,6 +67,9 @@
 
 /* Begin PBXFileReference section */
 		8C60EA62295F1B63006785E2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8C60EA64296BF1D7006785E2 /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
+		8C60EA66296BF9F6006785E2 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
+		8C60EA67296BF9F6006785E2 /* News.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = News.xib; sourceTree = "<group>"; };
 		8C78106B295DA5F7004A4A09 /* SharedExt.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SharedExt.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C78106D295DA5F7004A4A09 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		8C781070295DA5F7004A4A09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -87,7 +92,6 @@
 		8CE9B06C295D735200B181B0 /* RSSReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSSReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CE9B06F295D735200B181B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8CE9B071295D735200B181B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8CE9B073295D735200B181B0 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		8CE9B076295D735200B181B0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8CE9B079295D735200B181B0 /* RSSReader.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RSSReader.xcdatamodel; sourceTree = "<group>"; };
 		8CE9B07B295D735700B181B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -187,8 +191,8 @@
 		8CE9B086295D738600B181B0 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				8C60EA66296BF9F6006785E2 /* NewsViewController.swift */,
 				8CE28810295EBA3600F879CD /* HistoryViewController.swift */,
-				8CE9B073295D735200B181B0 /* NewsViewController.swift */,
 				8C78107B295DBB4C004A4A09 /* ShareViewController.swift */,
 				8C60EA62295F1B63006785E2 /* ViewController.swift */,
 			);
@@ -205,6 +209,8 @@
 				8CE28811295EBA3600F879CD /* History.xib */,
 				8CE28818295EC23900F879CD /* HistoryTableViewCell.swift */,
 				8CE28819295EC23900F879CD /* HistoryTableViewCell.xib */,
+				8C60EA64296BF1D7006785E2 /* SpinnerView.swift */,
+				8C60EA67296BF9F6006785E2 /* News.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -333,6 +339,7 @@
 				8CE28813295EBA3600F879CD /* History.xib in Resources */,
 				8CE2881B295EC23900F879CD /* HistoryTableViewCell.xib in Resources */,
 				8CE9B077295D735200B181B0 /* Main.storyboard in Resources */,
+				8C60EA69296BF9F6006785E2 /* News.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,14 +358,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C60EA65296BF1D7006785E2 /* SpinnerView.swift in Sources */,
 				8CE9B091295D889200B181B0 /* NewsModel.swift in Sources */,
+				8C60EA68296BF9F6006785E2 /* NewsViewController.swift in Sources */,
 				8CE9B093295D937C00B181B0 /* UIImageView+Ext.swift in Sources */,
 				8CE2881A295EC23900F879CD /* HistoryTableViewCell.swift in Sources */,
 				8CE28820295EC60500F879CD /* CoreDataManager.swift in Sources */,
 				8CE9B08E295D78B900B181B0 /* FeedParser.swift in Sources */,
 				8CE28823295EC78F00F879CD /* HistoryStorage.xcdatamodeld in Sources */,
 				8CE28812295EBA3600F879CD /* HistoryViewController.swift in Sources */,
-				8CE9B074295D735200B181B0 /* NewsViewController.swift in Sources */,
 				8CE9B07A295D735200B181B0 /* RSSReader.xcdatamodeld in Sources */,
 				8C78107E295DBC84004A4A09 /* Utils.swift in Sources */,
 				8CE28836295F084900F879CD /* HistoryItem+CoreDataProperties.swift in Sources */,
