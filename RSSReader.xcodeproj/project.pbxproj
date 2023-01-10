@@ -135,20 +135,20 @@
 		8CE2881E295EC5E900F879CD /* service */ = {
 			isa = PBXGroup;
 			children = (
-				8CE28828295EC85900F879CD /* Model */,
+				8CE28828295EC85900F879CD /* model */,
 				8CE2881F295EC60500F879CD /* CoreDataManager.swift */,
 				8CE28821295EC78F00F879CD /* HistoryStorage.xcdatamodeld */,
 			);
 			path = service;
 			sourceTree = "<group>";
 		};
-		8CE28828295EC85900F879CD /* Model */ = {
+		8CE28828295EC85900F879CD /* model */ = {
 			isa = PBXGroup;
 			children = (
 				8CE28833295F084900F879CD /* HistoryItem+CoreDataClass.swift */,
 				8CE28834295F084900F879CD /* HistoryItem+CoreDataProperties.swift */,
 			);
-			path = Model;
+			path = model;
 			sourceTree = "<group>";
 		};
 		8CE9B063295D735200B181B0 = {
