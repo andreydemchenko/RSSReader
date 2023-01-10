@@ -27,7 +27,7 @@ class HistoryViewController: UIViewController {
     
     private func getData() {
         dataSource.removeAll()
-        dataSource = appContext.coreDataManager.fetchItems()
+        dataSource = appContext.coreDataManager.getItems()
         dataSource.reverse()
         tableView.reloadData()
     }

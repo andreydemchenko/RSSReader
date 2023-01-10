@@ -10,7 +10,9 @@ import UIKit
 
 extension UIImageView {
 
- public func imageFromURL(urlString: String) {
+    public func imageFromURL(urlString: String, placeholderImage: UIImage = UIImage(named: "placeholderImage")!) {
+        
+        self.image = placeholderImage
 
         URLSession.shared.dataTask(with: NSURL(string: urlString)! as URL, completionHandler: { (data, response, error) -> Void in
 

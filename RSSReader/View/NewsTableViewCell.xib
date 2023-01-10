@@ -38,7 +38,7 @@
                                 <color key="textColor" systemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="747" image="placeholderImage" translatesAutoresizingMaskIntoConstraints="NO" id="Gcl-pk-07C">
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="747" image="placeholderImage" translatesAutoresizingMaskIntoConstraints="NO" id="Gcl-pk-07C">
                                 <rect key="frame" x="0.0" y="0.0" width="296" height="214.33333333333334"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="216" id="efS-cx-2Ga"/>

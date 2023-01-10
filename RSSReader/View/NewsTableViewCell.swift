@@ -39,7 +39,13 @@ class NewsTableViewCell: UITableViewCell {
     
     func setViews(item: NewsModel) {
         newsModel = item
-        newsImageView.imageFromURL(urlString: item.imageUrl)
+        newsImageView.image = nil
+        if item.imageUrl.isEmpty {
+            newsImageView.isHidden = true
+        } else {
+            newsImageView.isHidden = false
+            newsImageView.imageFromURL(urlString: item.imageUrl)
+        }
         (titleLbl.text, descriptionLbl.text, dateLbl.text) = (item.title, item.description, item.pubDate.toStringNewsFormat)
         if let clickedDate = item.clickDate {
             clickedAtLbl.isHidden = false

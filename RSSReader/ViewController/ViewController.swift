@@ -28,7 +28,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        textField.text = "https://news.un.org/feed/subscribe/ru/news/region/europe/feed/rss.xml"
+        //textField.text = "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml"
+        textField.text = "https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml"
         errorLbl.text = nil
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
