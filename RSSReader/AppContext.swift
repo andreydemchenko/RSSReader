@@ -14,5 +14,6 @@ class AppContext {
     
     lazy var historyCoreDataManager = HistoryCoreDataManager()
     lazy var sourcesCoreDataManager = SourceCoreDataManager()
+    lazy var imageCache = ImageCache()
     
 }

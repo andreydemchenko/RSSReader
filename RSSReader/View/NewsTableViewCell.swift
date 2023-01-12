@@ -21,7 +21,7 @@ class NewsTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        newsImageView.image = nil
+        //newsImageView.image = nil
     }
     
     private var newsModel: NewsModel?
@@ -41,7 +41,13 @@ class NewsTableViewCell: UITableViewCell {
             newsImageView.isHidden = true
         } else {
             newsImageView.isHidden = false
-            newsImageView.imageFromURL(urlString: item.imageUrl)
+            if let url = URL(string: item.imageUrl) {
+                if let image = appContext.imageCache[url] {
+                    newsImageView.image = image
+                } else {
+                    newsImageView.imageFromURL(urlString: item.imageUrl)
+                }
+            }
         }
         (titleLbl.text, descriptionLbl.text, dateLbl.text) = (item.title, item.description, item.pubDate.toStringNewsFormat)
         if let clickedDate = item.clickDate {

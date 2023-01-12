@@ -17,6 +17,7 @@
 		8C60EA76296EB0D9006785E2 /* SourceItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C60EA74296EB0D9006785E2 /* SourceItem+CoreDataProperties.swift */; };
 		8C60EA78296EB1F2006785E2 /* SourceCoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C60EA77296EB1F2006785E2 /* SourceCoreDataManager.swift */; };
 		8C60EA7A296ECB3C006785E2 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C60EA79296ECB3C006785E2 /* MainTabBarController.swift */; };
+		8C60EA7C29701874006785E2 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C60EA7B29701874006785E2 /* ImageCache.swift */; };
 		8C78106E295DA5F7004A4A09 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C78106D295DA5F7004A4A09 /* ShareViewController.swift */; };
 		8C781071295DA5F7004A4A09 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C78106F295DA5F7004A4A09 /* MainInterface.storyboard */; };
 		8C781075295DA5F7004A4A09 /* SharedExt.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8C78106B295DA5F7004A4A09 /* SharedExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -78,6 +79,7 @@
 		8C60EA74296EB0D9006785E2 /* SourceItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SourceItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8C60EA77296EB1F2006785E2 /* SourceCoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceCoreDataManager.swift; sourceTree = "<group>"; };
 		8C60EA79296ECB3C006785E2 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		8C60EA7B29701874006785E2 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		8C78106B295DA5F7004A4A09 /* SharedExt.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SharedExt.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C78106D295DA5F7004A4A09 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		8C781070295DA5F7004A4A09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				8CE9B080295D735700B181B0 /* Info.plist */,
 				8CE9B094295D938200B181B0 /* Extensions */,
 				8CE2882D295ED0A800F879CD /* AppContext.swift */,
+				8C60EA7B29701874006785E2 /* ImageCache.swift */,
 			);
 			path = RSSReader;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 				8C60EA6C296E9093006785E2 /* SourceTableViewCell.swift in Sources */,
 				8C78107E295DBC84004A4A09 /* Utils.swift in Sources */,
 				8C60EA78296EB1F2006785E2 /* SourceCoreDataManager.swift in Sources */,
+				8C60EA7C29701874006785E2 /* ImageCache.swift in Sources */,
 				8CE28836295F084900F879CD /* HistoryItem+CoreDataProperties.swift in Sources */,
 				8C60EA75296EB0D9006785E2 /* SourceItem+CoreDataClass.swift in Sources */,
 				8C781080295DD0A0004A4A09 /* UIWindow+Ext.swift in Sources */,
