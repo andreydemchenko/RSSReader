@@ -10,14 +10,21 @@ import UIKit
 class NewsViewController: UIViewController {
 
     @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var noticeLbl: UILabel!
     
-    var rssItems: [NewsModel]?
-    
-    private var sharedIdentifier = "group.com.zuzex.RSSReader.SharedExt"
+    var rssItems: [NewsModel]? {
+        didSet {
+            hideIfNeeded()
+            tableView.reloadData()
+        }
+    }
+    var newsTitle = "News"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNavBar()
+        title = newsTitle
+        
+        hideIfNeeded()
 
         tableView.register(UINib(nibName: "NewsTableViewCell", bundle: nil), forCellReuseIdentifier: "NewsCell")
         tableView.estimatedRowHeight = 330
@@ -26,22 +33,20 @@ class NewsViewController: UIViewController {
         tableView.delegate = self
     }
     
-    private func setNavBar() {
-        let rightBarButton = UIBarButtonItem(title: "History", style: .done, target: self, action: #selector(goToHistory))
-    
-        navigationItem.title = "StupdNews"
-        navigationItem.rightBarButtonItem = rightBarButton
-        navigationItem.rightBarButtonItem?.tintColor = .orange
+    func setData(items: [NewsModel]?) {
+        rssItems?.removeAll()
+        rssItems = items
     }
     
-    @objc
-    private func goToHistory() {
-        let vc = HistoryViewController(nibName: "History", bundle: nil)
-        vc.title = "History"
-        navigationController?.pushViewController(vc, animated: true)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        tableView.reloadData()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    private func hideIfNeeded() {
+        let isData = rssItems != nil
+        noticeLbl.isHidden = isData
+        tableView.isHidden = !isData
     }
 
 }
@@ -71,7 +76,18 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let item = rssItems?[indexPath.row], let url = URL(string: item.link) {
             UIApplication.shared.open(url)
-            appContext.coreDataManager.addItem(item: item)
+            appContext.historyCoreDataManager.addItem(item: item)
+            updateHistoryVC()
+        }
+    }
+    
+    private func updateHistoryVC() {
+        if let mainTBC = navigationController?.tabBarController as? MainTabBarController {
+            if let newsNVC = mainTBC.viewControllers?[2] as? UINavigationController {
+                if let historyVC = newsNVC.viewControllers.first as? HistoryViewController {
+                    historyVC.getData()
+                }
+            }
         }
     }
     
@@ -84,4 +100,3 @@ extension NewsViewController: NewsTableViewCellProtocol {
     }
     
 }
-

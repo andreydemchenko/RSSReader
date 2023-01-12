@@ -6,8 +6,13 @@
 //
 
 import Foundation
+import CoreData
 
 let appContext = AppContext()
+
 class AppContext {
-    lazy var coreDataManager = CoreDataManager()
+    
+    lazy var historyCoreDataManager = HistoryCoreDataManager()
+    lazy var sourcesCoreDataManager = SourceCoreDataManager()
+    
 }

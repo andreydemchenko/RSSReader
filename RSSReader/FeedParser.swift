@@ -43,7 +43,14 @@ class FeedParser: NSObject, XMLParserDelegate {
         }
     }
     
+    private var newsName = ""
+    private var isName = true
+    
     private var parserCompletionHandler: (([NewsModel]) -> Void)?
+    
+    func getNewsName() -> String {
+        return newsName
+    }
     
     func parseFeed(feedURL: String, completionHandler: (([NewsModel]) -> Void)?) -> Void {
         
@@ -89,7 +96,7 @@ class FeedParser: NSObject, XMLParserDelegate {
             currentImageUrl = ""
             currentPubDate = ""
         }
-        if currentElement == "enclosure" || currentElement == "media:content" {
+        if currentElement == "enclosure" || currentElement == "media:content" || currentElement == "image" {
             if let url = attributeDict["url"] {
                 currentImageUrl += url
             }
@@ -99,13 +106,19 @@ class FeedParser: NSObject, XMLParserDelegate {
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         switch currentElement {
         case "title":
+            if isName {
+                newsName += string
+            }
             currentTitle += string
+            isName = false
         case "link":
             currentLink += string
         case "description":
             currentDescription += string
         case "pubDate":
             currentPubDate += string
+        case "im:image":
+            currentImageUrl += string
         default:
             break
         }

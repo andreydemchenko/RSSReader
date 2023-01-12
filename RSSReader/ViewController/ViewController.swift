@@ -9,6 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var searchBtn: UIButton!
     @IBOutlet private weak var textField: UITextField!
     @IBOutlet private weak var errorLbl: UILabel!
@@ -24,20 +25,70 @@ class ViewController: UIViewController {
     
     private let group = DispatchGroup()
     
-    private let spinner = SpinnerView()
+    private var dataSource: [SourceModel] = []
+    private var sourceName: String?
+    private var editAtIndex: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //textField.text = "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml"
-        textField.text = "https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml"
+        textField.text = "https://www.iaea.org/feeds/photoessays"
         errorLbl.text = nil
+        textField.delegate = self
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UINib(nibName: "SourceTableViewCell", bundle: nil), forCellReuseIdentifier: "SourceCell")
+        getData()
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(longPressGestureRecognizer:)))
+        view.addGestureRecognizer(longPressRecognizer)
     }
+    
+    private func getData() {
+        dataSource.removeAll()
+        dataSource = appContext.sourcesCoreDataManager.getItems()
+        dataSource.reverse()
+        tableView.reloadData()
+    }
+    
+    @objc
+    private func longPress(longPressGestureRecognizer: UILongPressGestureRecognizer) {
+        if longPressGestureRecognizer.state == .began {
+            let touchPoint = longPressGestureRecognizer.location(in: tableView)
+            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
+                let item = dataSource[indexPath.row]
+                showAlert(item: item)
+            }
+        }
+    }
+    
+    private func showAlert(item: SourceModel) {
+        let alert = UIAlertController(title: "\(item.name)", message: "", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Edit", style: .default , handler: { (UIAlertAction) in
+            if let index = self.dataSource.firstIndex(where: { $0.id == item.id }) {
+                self.editAtIndex = index
+                self.textField.text = item.link
+                self.textField.becomeFirstResponder()
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Copy url", style: .default , handler: { (UIAlertAction) in
+            UIPasteboard.general.string = item.link
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive , handler: { (UIAlertAction) in
+            appContext.sourcesCoreDataManager.deleteItem(link: item.link)
+            self.getData()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.present(alert, animated: true)
+    }
+ 
     
     @IBAction
     private func searchBtnClicked(_ sender: Any) {
+        getData()
         if let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines), text.isEmpty || textField.text == nil {
             errorLbl.text = "Enter URL!"
         } else {
@@ -89,15 +140,20 @@ class ViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.hideSpinner()
                     if let rssItems = self.rssItems, !rssItems.isEmpty {
+                        self.sourceName = self.feedParser.getNewsName()
+                        let model = SourceModel(id: UUID().uuidString, link: url, name: self.sourceName ?? "News")
+                        appContext.sourcesCoreDataManager.addItem(item: model)
+                        self.getData()
                         self.errorLbl.text = nil
                         self.openNewsController()
+                        self.sourceName = nil
                     } else {
                         self.errorLbl.text = "There is no data"
                     }
                 }
             }
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 8.0, execute: {
             if self.getDispatchGroupCount() == 1 {
                 self.group.leave()
             }
@@ -105,10 +161,15 @@ class ViewController: UIViewController {
     }
     
     private func openNewsController() {
-        let newsVC = NewsViewController(nibName: "News", bundle: nil)
-        newsVC.rssItems = self.rssItems
-        navigationController?.pushViewController(newsVC, animated: true)
-        self.rssItems = nil
+        if let mainTBC = navigationController?.tabBarController as? MainTabBarController {
+            if let newsNVC = mainTBC.viewControllers?[1] as? UINavigationController {
+                if let newsVC = newsNVC.viewControllers.first as? NewsViewController {
+                    mainTBC.rssDataSource = self.rssItems
+                    newsVC.setData(items: rssItems)
+                    mainTBC.selectedIndex = 1
+                }
+            }
+        }
     }
     
     private func getDispatchGroupCount() -> Int {
@@ -119,6 +180,38 @@ class ViewController: UIViewController {
     @objc
     private func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+}
+
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataSource.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SourceCell", for: indexPath) as? SourceTableViewCell else {
+            fatalError("Could not dequeue cell of type SourceTableViewCell")
+        }
+        cell.selectionStyle = .none
+        cell.setViews(item: dataSource[indexPath.row])
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = dataSource[indexPath.row]
+        parse(url: item.link)
+        dismissKeyboard()
+    }
+    
+}
+
+extension ViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
     
 }

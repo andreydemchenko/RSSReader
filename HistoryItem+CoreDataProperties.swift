@@ -9,8 +9,7 @@
 import Foundation
 import CoreData
 
-
-public extension HistoryItem {
+extension HistoryItem {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<HistoryItem> {
         return NSFetchRequest<HistoryItem>(entityName: "HistoryItem")

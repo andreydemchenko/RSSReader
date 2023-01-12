@@ -19,16 +19,13 @@ class NewsTableViewCell: UITableViewCell {
     @IBOutlet private weak var descriptionLbl: UILabel!
     @IBOutlet private weak var clickedAtLbl: UILabel!
     
-    private var newsModel: NewsModel?
-    var delegateObject: NewsTableViewCellProtocol?
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        newsImageView.image = nil
+    }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
+    private var newsModel: NewsModel?
+    weak var delegateObject: NewsTableViewCellProtocol?
     
     @IBAction
     private func shareBtnClicked(_ sender: Any) {

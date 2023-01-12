@@ -1,24 +1,24 @@
 //
-//  CoreDataManager.swift
+//  SourceCoreDataManager.swift
 //  RSSReader
 //
-//  Created by zuzex-62 on 30.12.2022.
+//  Created by zuzex-62 on 11.01.2023.
 //
 
 import Foundation
 import CoreData
 
-class CoreDataManager {
+class SourceCoreDataManager {
     
     private lazy var context: NSManagedObjectContext = {
         return self.persistentContainer.viewContext
     }()
     
     private lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "HistoryStorage")
+        let container = NSPersistentContainer(name: "SourceStorage")
         
         let storeDirectory = NSPersistentContainer.defaultDirectoryURL()
-        let url = storeDirectory.appendingPathComponent("HistoryStorage.sqlite")
+        let url = storeDirectory.appendingPathComponent("SourceStorage.sqlite")
         let description = NSPersistentStoreDescription(url: url)
         description.shouldMigrateStoreAutomatically = true
         description.shouldInferMappingModelAutomatically = true
@@ -32,7 +32,7 @@ class CoreDataManager {
         return container
     }()
     
-    func saveContext() {
+    private func saveContext() {
         if context.hasChanges {
             do {
                 try context.save()
@@ -43,34 +43,44 @@ class CoreDataManager {
         }
     }
     
-    private func fetchData() -> [HistoryItem] {
-        var historyItems = [HistoryItem]()
+    private func fetchData() -> [SourceItem] {
+        var sourceItems = [SourceItem]()
         do {
-            historyItems = try context.fetch(HistoryItem.fetchRequest())
+            sourceItems = try context.fetch(SourceItem.fetchRequest())
         } catch {
             print("An error occurred with fetching items")
         }
-        return historyItems
+        return sourceItems
     }
     
-    func getItems() -> [NewsModel] {
-        var items = [NewsModel]()
-        var historyItems = [HistoryItem]()
-        historyItems = fetchData()
-        items = historyItems.map { item in
-            NewsModel(id: item.id ?? "", title: item.title ?? "", link: item.link ?? "", description: item.desc ?? "", imageUrl: item.imageUrl ?? "", pubDate: item.pubDate ?? Date(), clickDate: item.clickDate)
+    func getItems() -> [SourceModel] {
+        var items = [SourceModel]()
+        var sourceItems = [SourceItem]()
+        sourceItems = fetchData()
+        items = sourceItems.map { item in
+            SourceModel(id: item.id ?? "", link: item.link ?? "", name: item.name ?? "")
         }
         
         return items
     }
     
-    func addItem(item: NewsModel) {
+    func addItem(item: SourceModel) {
+        deleteItem(link: item.link)
+        
+        let sourceItem = SourceItem(context: context)
+        sourceItem.id = item.id
+        sourceItem.name = item.name
+        sourceItem.link = item.link
+        saveContext()
+    }
+    
+    func deleteItem(link: String) {
         do {
-            let fetchRequest: NSFetchRequest<HistoryItem>
-            fetchRequest = HistoryItem.fetchRequest()
+            let fetchRequest: NSFetchRequest<SourceItem>
+            fetchRequest = SourceItem.fetchRequest()
             
             fetchRequest.predicate = NSPredicate(
-                format: "link LIKE %@", item.link
+                format: "link LIKE %@", link
             )
             let objects = try context.fetch(fetchRequest)
             for item in objects {
@@ -80,15 +90,7 @@ class CoreDataManager {
         } catch {
             print("error fetching with predicate")
         }
-        
-        let historyItem = HistoryItem(context: context)
-        historyItem.id = item.id
-        historyItem.title = item.title
-        historyItem.link = item.link
-        historyItem.desc = item.description
-        historyItem.imageUrl = item.imageUrl
-        historyItem.clickDate = Date()
-        historyItem.pubDate = item.pubDate
         saveContext()
     }
+    
 }

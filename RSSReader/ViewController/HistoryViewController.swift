@@ -11,7 +11,11 @@ class HistoryViewController: UIViewController {
 
     @IBOutlet private  weak var tableView: UITableView!
     
-    private var dataSource = [NewsModel]()
+    private var dataSource = [NewsModel]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,11 +29,10 @@ class HistoryViewController: UIViewController {
         getData()
     }
     
-    private func getData() {
+    func getData() {
         dataSource.removeAll()
-        dataSource = appContext.coreDataManager.getItems()
+        dataSource = appContext.historyCoreDataManager.getItems()
         dataSource.reverse()
-        tableView.reloadData()
     }
 
 }
@@ -53,7 +56,7 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
         let item = dataSource[indexPath.row]
         if let url = URL(string: item.link) {
             UIApplication.shared.open(url)
-            appContext.coreDataManager.addItem(item: item)
+            appContext.historyCoreDataManager.addItem(item: item)
             getData()
         }
     }

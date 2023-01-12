@@ -16,9 +16,3 @@ struct NewsModel {
     var pubDate: Date
     var clickDate: Date?
 }
-
-//struct ImageDataNews {
-//    var url: String
-//    var length: String
-//    var type: String
-//}

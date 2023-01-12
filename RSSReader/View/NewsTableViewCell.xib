@@ -113,7 +113,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="placeholderImage" width="560" height="340"/>
+        <image name="placeholderImage" width="1200" height="800"/>
         <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
