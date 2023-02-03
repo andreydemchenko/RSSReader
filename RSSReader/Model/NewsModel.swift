@@ -13,6 +13,7 @@ struct NewsModel {
     var link: String
     var description: String
     var imageUrl: String
+    var imagePath: String?
     var pubDate: Date
     var clickDate: Date?
 }

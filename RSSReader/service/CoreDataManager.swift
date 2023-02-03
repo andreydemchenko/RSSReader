@@ -8,7 +8,12 @@
 import Foundation
 import CoreData
 
-class HistoryCoreDataManager {
+enum StorageType {
+    case history
+    case source
+}
+
+class CoreDataManager {
     
     private lazy var context: NSManagedObjectContext = {
         return self.persistentContainer.viewContext
@@ -43,28 +48,50 @@ class HistoryCoreDataManager {
         }
     }
     
-    private func fetchData() -> [HistoryItem] {
-        var historyItems = [HistoryItem]()
+    private func fetchHistoryData() -> [HistoryItem] {
+        var items = [HistoryItem]()
         do {
-            historyItems = try context.fetch(HistoryItem.fetchRequest())
+            items = try context.fetch(HistoryItem.fetchRequest())
         } catch {
             print("An error occurred with fetching items")
         }
-        return historyItems
+        return items
     }
     
-    func getItems() -> [NewsModel] {
+    private func fetchSourceData() -> [SourceItem] {
+        var sourceItems = [SourceItem]()
+        do {
+            sourceItems = try context.fetch(SourceItem.fetchRequest())
+        } catch {
+            print("An error occurred with fetching items")
+        }
+        return sourceItems
+    }
+    
+    func getHistoryItems() -> [NewsModel] {
         var items = [NewsModel]()
         var historyItems = [HistoryItem]()
-        historyItems = fetchData()
+        historyItems = fetchHistoryData()
         items = historyItems.map { item in
-            NewsModel(id: item.id ?? "", title: item.title ?? "", link: item.link ?? "", description: item.desc ?? "", imageUrl: item.imageUrl ?? "", pubDate: item.pubDate ?? Date(), clickDate: item.clickDate)
+            NewsModel(id: item.id ?? "", title: item.title ?? "", link: item.link ?? "", description: item.desc ?? "", imageUrl: item.imageUrl ?? "", imagePath: item.imagePath, pubDate: item.pubDate ?? Date(), clickDate: item.clickDate)
         }
         
         return items
     }
     
-    func addItem(item: NewsModel) {
+    func getSourceItems() -> [SourceModel] {
+        var items = [SourceModel]()
+        var sourceItems = [SourceItem]()
+        sourceItems = fetchSourceData()
+        items = sourceItems.map { item in
+            SourceModel(id: item.id ?? "", link: item.link ?? "", name: item.name ?? "")
+        }
+        
+        return items
+    }
+
+    
+    func addHistoryItem(item: NewsModel) {
         do {
             let fetchRequest: NSFetchRequest<HistoryItem>
             fetchRequest = HistoryItem.fetchRequest()
@@ -89,6 +116,39 @@ class HistoryCoreDataManager {
         historyItem.imageUrl = item.imageUrl
         historyItem.clickDate = Date()
         historyItem.pubDate = item.pubDate
+        
+        if let url = URL(string: item.imageUrl), let image = appContext.imageCache[url], let imageName = image.save() {
+            historyItem.imagePath = imageName
+        }
+        saveContext()
+    }
+    
+    func addSourceItem(item: SourceModel) {
+        deleteSourceItem(link: item.link)
+        
+        let sourceItem = SourceItem(context: context)
+        sourceItem.id = item.id
+        sourceItem.name = item.name
+        sourceItem.link = item.link
+        saveContext()
+    }
+    
+    func deleteSourceItem(link: String) {
+        do {
+            let fetchRequest: NSFetchRequest<SourceItem>
+            fetchRequest = SourceItem.fetchRequest()
+            
+            fetchRequest.predicate = NSPredicate(
+                format: "link LIKE %@", link
+            )
+            let objects = try context.fetch(fetchRequest)
+            for item in objects {
+                context.delete(item)
+            }
+            
+        } catch {
+            print("error fetching with predicate")
+        }
         saveContext()
     }
 }

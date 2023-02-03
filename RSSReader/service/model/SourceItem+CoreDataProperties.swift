@@ -2,7 +2,7 @@
 //  SourceItem+CoreDataProperties.swift
 //  RSSReader
 //
-//  Created by zuzex-62 on 11.01.2023.
+//  Created by zuzex-62 on 12.01.2023.
 //
 //
 
@@ -17,8 +17,8 @@ extension SourceItem {
     }
 
     @NSManaged public var id: String?
-    @NSManaged public var name: String?
     @NSManaged public var link: String?
+    @NSManaged public var name: String?
 
 }
 

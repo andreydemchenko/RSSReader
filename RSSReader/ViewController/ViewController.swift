@@ -26,12 +26,13 @@ class ViewController: UIViewController {
     private let group = DispatchGroup()
     
     private var dataSource: [SourceModel] = []
-    private var sourceName: String?
+    private var sourceName = "News"
     private var editAtIndex: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        textField.text = "https://www.iaea.org/feeds/photoessays"
+        print("⭐️⭐️⭐️⭐️⭐️")
+        textField.text = "https://www.mensjournal.com/feed/"
         errorLbl.text = nil
         textField.delegate = self
         tableView.delegate = self
@@ -45,7 +46,7 @@ class ViewController: UIViewController {
     
     private func getData() {
         dataSource.removeAll()
-        dataSource = appContext.sourcesCoreDataManager.getItems()
+        dataSource = appContext.coreDataManager.getSourceItems()
         dataSource.reverse()
         tableView.reloadData()
     }
@@ -76,7 +77,7 @@ class ViewController: UIViewController {
         }))
         
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive , handler: { (UIAlertAction) in
-            appContext.sourcesCoreDataManager.deleteItem(link: item.link)
+            appContext.coreDataManager.deleteSourceItem(link: item.link)
             self.getData()
         }))
         
@@ -95,7 +96,8 @@ class ViewController: UIViewController {
             dismissKeyboard()
             if let text = textField.text {
                 if verifyUrl(urlString: text) {
-                    parse(url: text)
+                    sourceName = feedParser.getNewsName()
+                    parse(url: text, name: sourceName)
                 } else {
                     errorLbl.text = "Invalid URL!"
                 }
@@ -122,7 +124,7 @@ class ViewController: UIViewController {
         return false
     }
     
-    private func parse(url: String) {
+    private func parse(url: String, name: String) {
         group.enter()
         showSpinner()
         feedParser.parseFeed(feedURL: url) { [weak self] rssItems in
@@ -140,13 +142,12 @@ class ViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.hideSpinner()
                     if let rssItems = self.rssItems, !rssItems.isEmpty {
-                        self.sourceName = self.feedParser.getNewsName()
-                        let model = SourceModel(id: UUID().uuidString, link: url, name: self.sourceName ?? "News")
-                        appContext.sourcesCoreDataManager.addItem(item: model)
+                        let model = SourceModel(id: UUID().uuidString, link: url, name: name)
+                        appContext.coreDataManager.addSourceItem(item: model)
                         self.getData()
                         self.errorLbl.text = nil
                         self.openNewsController()
-                        self.sourceName = nil
+                        self.sourceName = "News"
                     } else {
                         self.errorLbl.text = "There is no data"
                     }
@@ -201,7 +202,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = dataSource[indexPath.row]
-        parse(url: item.link)
+        parse(url: item.link, name: item.name)
         dismissKeyboard()
     }
     

@@ -31,7 +31,7 @@ class HistoryViewController: UIViewController {
     
     func getData() {
         dataSource.removeAll()
-        dataSource = appContext.historyCoreDataManager.getItems()
+        dataSource = appContext.coreDataManager.getHistoryItems()
         dataSource.reverse()
     }
 
@@ -55,9 +55,9 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = dataSource[indexPath.row]
         if let url = URL(string: item.link) {
-            UIApplication.shared.open(url)
-            appContext.historyCoreDataManager.addItem(item: item)
+            appContext.coreDataManager.addHistoryItem(item: item)
             getData()
+            UIApplication.shared.open(url)
         }
     }
     

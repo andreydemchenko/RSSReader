@@ -27,14 +27,11 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        if let nvc = viewController as? UINavigationController {
-            if let newsVC = nvc.viewControllers.first as? NewsViewController {
-                newsVC.setData(items: rssDataSource)
-            }
-            if let historyVC = nvc.viewControllers.first as? HistoryViewController {
-                historyVC.getData()
-            }
-        }
+//        if let nvc = viewController as? UINavigationController, Reachability.isConnectedToNetwork() {
+//            if let newsVC = nvc.viewControllers.first as? NewsViewController {
+//                newsVC.setData(items: rssDataSource)
+//            }
+//        }
     }
     
 }

@@ -75,9 +75,9 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let item = rssItems?[indexPath.row], let url = URL(string: item.link) {
-            UIApplication.shared.open(url)
-            appContext.historyCoreDataManager.addItem(item: item)
+            appContext.coreDataManager.addHistoryItem(item: item)
             updateHistoryVC()
+            UIApplication.shared.open(url)
         }
     }
     

@@ -2,7 +2,7 @@
 //  SourceItem+CoreDataClass.swift
 //  RSSReader
 //
-//  Created by zuzex-62 on 11.01.2023.
+//  Created by zuzex-62 on 12.01.2023.
 //
 //
 

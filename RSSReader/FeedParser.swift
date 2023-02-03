@@ -98,7 +98,7 @@ class FeedParser: NSObject, XMLParserDelegate {
         }
         if currentElement == "enclosure" || currentElement == "media:content" || currentElement == "image" {
             if let url = attributeDict["url"] {
-                currentImageUrl += url
+                currentImageUrl = url
             }
         }
     }

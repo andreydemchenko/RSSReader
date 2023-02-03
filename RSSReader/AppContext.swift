@@ -12,8 +12,7 @@ let appContext = AppContext()
 
 class AppContext {
     
-    lazy var historyCoreDataManager = HistoryCoreDataManager()
-    lazy var sourcesCoreDataManager = SourceCoreDataManager()
+    lazy var coreDataManager = CoreDataManager()
     lazy var imageCache = ImageCache()
     
 }

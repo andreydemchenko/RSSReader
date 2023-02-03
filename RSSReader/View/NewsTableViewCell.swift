@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 protocol NewsTableViewCellProtocol: AnyObject {
     func shareNews(data: NewsModel)
@@ -21,7 +22,7 @@ class NewsTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        //newsImageView.image = nil
+        newsImageView.image = nil
     }
     
     private var newsModel: NewsModel?
@@ -41,11 +42,18 @@ class NewsTableViewCell: UITableViewCell {
             newsImageView.isHidden = true
         } else {
             newsImageView.isHidden = false
-            if let url = URL(string: item.imageUrl) {
-                if let image = appContext.imageCache[url] {
-                    newsImageView.image = image
-                } else {
-                    newsImageView.imageFromURL(urlString: item.imageUrl)
+            if let imagePath = item.imagePath, let image = imagePath.getImageFromPath {
+                newsImageView.image = image
+            } else {
+                if let url = URL(string: item.imageUrl) {
+                    newsImageView.sd_setImage(with: url, placeholderImage: UIImage(named: "placeholderImage"))
+//                    if let image = appContext.imageCache[url] {
+//                        print("image from cache")
+//                        newsImageView.image = image
+//                    } else {
+//                        print("image from url")
+//                        newsImageView.imageFromURL(urlString: item.imageUrl)
+//                    }
                 }
             }
         }
